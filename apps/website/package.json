@@ -2,7 +2,7 @@
   "name": "@test/website",
   "private": false,
   "description": "Gatsby website for TEST",
-  "version": "0.7.50",
+  "version": "0.7.51",
   "author": "Amazee Labs <developers@amazeelabs.com>",
   "dependencies": {
     "dotenv": "^10.0.0",
