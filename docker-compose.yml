@@ -1,0 +1,81 @@
+version: '2.3'
+
+x-lagoon-project:
+  # Lagoon project name (leave `&lagoon-project` when you edit this)
+  &lagoon-project 'test'
+
+x-drupal-volumes:
+  &drupal-volumes # Define all volumes you would like to have real-time mounted into the drupal docker containers
+  volumes:
+    - .:/app:delegated
+
+x-environment: &default-environment
+  LAGOON_PROJECT: *lagoon-project
+  LAGOON_ENVIRONMENT_TYPE: production
+  LAGOON_ROUTE: http://cms.test.docker.amazee.io
+  LAGOON_LOCALDEV_URL: cms.test.docker.amazee.io
+
+services:
+  cli:
+    build:
+      context: .
+      dockerfile: .lagoon/cli.Dockerfile
+    image: *lagoon-project
+    labels:
+      lagoon.type: cli-persistent
+      lagoon.persistent.name: nginx
+      lagoon.persistent: /app/apps/cms/web/sites/default/files/
+    <<: *drupal-volumes
+    volumes_from:
+      - container:amazeeio-ssh-agent
+    environment:
+      <<: *default-environment
+
+  nginx:
+    build:
+      context: .
+      dockerfile: .lagoon/nginx.Dockerfile
+      args:
+        CLI_IMAGE: *lagoon-project
+    labels:
+      lagoon.type: nginx-php-persistent
+      lagoon.persistent: /app/apps/cms/web/sites/default/files/
+    <<: *drupal-volumes
+    volumes_from:
+      - container:amazeeio-ssh-agent
+    depends_on:
+      - cli
+    environment:
+      <<: *default-environment
+    networks:
+      - amazeeio-network
+      - default
+
+  php:
+    build:
+      context: .
+      dockerfile: .lagoon/php.Dockerfile
+      args:
+        CLI_IMAGE: *lagoon-project
+    labels:
+      lagoon.type: nginx-php-persistent
+      lagoon.name: nginx
+      lagoon.persistent: /app/apps/cms/web/sites/default/files/
+    <<: *drupal-volumes
+    depends_on:
+      - cli
+    environment:
+      <<: *default-environment
+
+  mariadb:
+    image: amazeeio/mariadb-drupal
+    labels:
+      lagoon.type: mariadb
+    ports:
+      - '3306'
+    environment:
+      <<: *default-environment
+
+networks:
+  amazeeio-network:
+    external: true

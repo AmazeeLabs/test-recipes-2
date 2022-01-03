@@ -1,0 +1,4 @@
+// Basic settings
+$settings['hash_salt'] = 'e7a6a1fa00eced371f210dc4a82afe8537afc843';
+$settings['config_sync_directory'] = '../config/sync';
+$settings['file_private_path'] = $app_root . '/sites/default/files/private';

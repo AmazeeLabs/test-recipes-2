@@ -1,0 +1,16 @@
+{
+  "name": "@test/cms",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "description": "Content management system for TEST",
+  "scripts": {
+    "prepare": "if php -v && [[ -z $LAGOON ]]; then composer install && yarn setup; fi",
+    "drupal-install": "source .envrc && silverback setup --profile minimal",
+    "setup": "source .envrc && silverback setup",
+    "start": "source .envrc && drush serve",
+    "admin": "source .envrc && drush uli",
+    "drush": "source .envrc && drush"
+  }
+}
