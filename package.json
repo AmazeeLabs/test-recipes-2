@@ -16,7 +16,13 @@
   },
   "scripts": {
     "commit": "git-cz",
-    "postinstall": "lerna run prepare && husky install"
+    "postinstall": "lerna run prepare && husky install",
+    "test:static": "lerna run test:static --since",
+    "test:static:all": "lerna run test:static",
+    "test:unit": "lerna run test:unit --since",
+    "test:unit:all": "lerna run test:unit",
+    "test:integration": "lerna run test:integration --since --concurrency=1 --stream",
+    "test:integration:all": "lerna run test:integration --concurrency=1 --stream"
   },
   "commitlint": {
     "extends": [

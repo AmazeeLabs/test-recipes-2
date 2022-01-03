@@ -1,0 +1,100 @@
+name: Test
+on:
+  pull_request:
+    branches:
+      - dev
+  push:
+    branches:
+      - dev
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          # TODO: Upgrade to PHP 8.
+          php-version: '7.4'
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Read .nvmrc
+        run: |
+          echo "##[set-output name=NODE_VERSION;]$(cat .nvmrc| grep -oE '[0-9]+(\.[0-9]+)?(\.[0-9]+)?' | head -1)"
+        id: node_version
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: |
+            ${{ steps.node_version.outputs.NODE_VERSION }}
+
+      - name: Tell yarn to use bash
+        run: yarn config set script-shell /bin/bash
+
+      - name: Get Yarn cache directory
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Get Yarn version hash
+        id: yarn-version
+        run: |
+          echo "::set-output name=hash::$(yarn --version | shasum | cut -d' ' -f1)"
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer global config cache-files-dir)"
+      - name: Get Composer version hash
+        id: composer-version
+        run: |
+          echo "::set-output name=hash::$(composer --version | shasum | cut -d' ' -f1)"
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-dependencies
+        with:
+          path: |
+            ${{ steps.yarn-cache.outputs.dir }}
+            ${{ steps.composer-cache.outputs.dir }}
+          key: |
+            ${{ runner.os }}-yarn-${{ steps.yarn-version.outputs.hash }}-composer-${{ steps.composer-version.outputs.hash }}-github_run_id-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-${{ steps.yarn-version.outputs.hash }}-composer-${{ steps.composer-version.outputs.hash }}-
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run static tests
+        if: startsWith(github.head_ref, 'test-all/') == false
+        run: yarn test:static
+      - name: Run all static tests
+        if: startsWith(github.head_ref, 'test-all/') == true
+        run: yarn test:static:all
+
+      - name: Run unit tests
+        if: startsWith(github.head_ref, 'test-all/') == false
+        run: yarn test:unit
+      - name: Run all unit tests
+        if: startsWith(github.head_ref, 'test-all/') == true
+        run: yarn test:unit:all
+
+      - name: Run integration tests
+        if: startsWith(github.head_ref, 'test-all/') == false
+        run: yarn test:integration
+      - name: Run all integration tests
+        if: startsWith(github.head_ref, 'test-all/') == true
+        run: yarn test:integration:all
+
+      - name: Check for uncommitted changes
+        run: |
+          if [[ $(git status --porcelain) ]]
+          then
+            >&2 echo "Error: Found uncommitted changes. Lerna publish will fail."
+            git status --porcelain
+            git diff
+            false
+          else
+            echo "Success: Found no uncommitted changes"
+          fi
