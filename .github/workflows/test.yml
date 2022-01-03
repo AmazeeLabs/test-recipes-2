@@ -98,3 +98,48 @@ jobs:
           else
             echo "Success: Found no uncommitted changes"
           fi
+      - name: Check if there are config changes after Drupal updates
+        run: |
+          set -e
+          cd apps/cms
+          source .envrc
+          composer i
+          silverback setup --no-config-import
+          drush cex -y
+          cd -
+          if [[ $(git status --porcelain -- apps/cms/config ':!apps/cms/config/sync/language') ]]
+          then
+            >&2 echo 'Error: Found uncommitted Drupal config.'
+            echo 'If it was due to Drupal updates which changed Drupal config: checkout this branch locally, switch to `apps/cms` dir, run `composer i && silverback setup --no-config-import && drush cex -y`, review the config changes, commit and push.'
+            echo 'If it was an intentional change to Drupal config files: checkout this branch locally, switch to `apps/cms` dir, run `composer i && silverback setup --profile=minimal`, commit and push.'
+            git status --porcelain -- apps/cms/config ':!apps/cms/config/sync/language'
+            false
+          else
+            echo 'Success: Found no new config changes.'
+          fi
+
+  docker_build:
+    name: Docker Build
+    if: startsWith(github.head_ref, 'test-all/') == true
+    runs-on: ubuntu-20.04
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2
+          bundler-cache: true
+
+      - name: Install Pygmy
+        run: gem install pygmy
+
+      - name: Start Pygmy
+        run: pygmy up
+
+      - name: Docker Build
+        run: docker-compose build
