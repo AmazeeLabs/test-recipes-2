@@ -1,0 +1,62 @@
+{
+  extends: [':ignoreModulesAndTests', 'helpers:disableTypesNodeMajor'],
+
+  ignorePaths: [
+    // We want full control on the Dockerfiles.
+    '.lagoon/**',
+    // Same for the Node version.
+    '.nvmrc',
+  ],
+
+  // This changes the behaviour of "stabilityDays"
+  // - from the standard "create PR and add a stabilityDays check to it"
+  // - to "create PR, but do not include updates for packages which did not pass
+  //   the stabilityDays check"
+  internalChecksFilter: 'strict',
+
+  dependencyDashboard: true,
+
+  // This will run all tests on Renovate PRs. This is required because
+  // `lerna run --since` will run nothing if only the root yarn.lock is updated.
+  branchPrefix: 'test-all/renovate/',
+
+  // The "bump" strategy helps a lot with Composer updates.
+  rangeStrategy: 'bump',
+
+  // All updates, except for the major, wait for a manual approval.
+  dependencyDashboardApproval: true,
+
+  packageRules: [
+    // Standard rules.
+    {
+      matchUpdateTypes: ['major'],
+      groupName: 'all-major',
+      // Give major updates a month to stabilize.
+      stabilityDays: 30,
+      automerge: false,
+      dependencyDashboardApproval: false,
+      // Drupal's security release window: Wednesdays, from 16:00 UTC to 22:00 UTC
+      // https://www.drupal.org/drupal-security-team/security-release-numbers-and-release-timing#s-release-timing
+      schedule: ['before 3am on thursday'],
+    },
+    {
+      matchUpdateTypes: ['minor', 'patch', 'digest'],
+      groupName: 'all-non-major',
+      automerge: false,
+    },
+    {
+      // Do not update "engines" field in package.json files.
+      matchDepTypes: ['engines'],
+      enabled: false,
+    },
+
+    // Package-specific rules.
+    // - none yet -
+  ],
+
+  lockFileMaintenance: {
+    enabled: true,
+    schedule: ['at any time'],
+    automerge: false,
+  },
+}
