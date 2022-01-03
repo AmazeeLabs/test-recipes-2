@@ -1,0 +1,67 @@
+{
+  "name": "@test/website",
+  "private": false,
+  "description": "Gatsby website for TEST",
+  "version": "0.7.50",
+  "author": "Amazee Labs <developers@amazeelabs.com>",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "gatsby": "^4.4.0",
+    "gatsby-plugin-schema-export": "^1.1.6",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@amazeelabs/eslint-config": "^1.4.8",
+    "@amazeelabs/jest-preset": "^1.3.13",
+    "@amazeelabs/prettier-config": "^1.1.1",
+    "@graphql-codegen/cli": "^2.3.0",
+    "@graphql-codegen/typescript": "^2.4.1",
+    "@graphql-codegen/typescript-operations": "^2.2.1",
+    "@types/classnames": "^2.3.0",
+    "@types/jest": "^27",
+    "@types/node": "^16.11.17",
+    "eslint": "^8",
+    "gatsby-source-filesystem": "^4.4.0",
+    "husky": "^7.0.4",
+    "jest": "^27",
+    "lint-staged": "^12.1.4",
+    "prettier": "^2",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
+  },
+  "keywords": [
+    "gatsby"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean",
+    "update-schema": "GATSBY_UPDATE_SCHEMA_SNAPSHOT=true gatsby build",
+    "codegen": "graphql-codegen --config codegen.yml",
+    "prepare": "yarn codegen",
+    "precommit": "lint-staged",
+    "test": "yarn test:static && yarn test:unit && yarn test:integration",
+    "watch": "jest --watch",
+    "test:static": "tsc --noEmit && eslint \"**/*.{ts,tsx,js,jsx}\" --ignore-path=\"./.gitignore\" --fix",
+    "test:unit": "jest --passWithNoTests",
+    "test:integration": "if [ -f test.sh ]; then ./test.sh; fi",
+    "test:watch": "jest --watch"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "http://localhost:4873",
+    "repository": "git@github.com:AmazeeLabs/gatsby-starter.git",
+    "branch": "main"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AmazeeLabs/silverback-mono"
+  },
+  "bugs": {
+    "url": "https://github.com/AmazeeLabs/silverback-mono/issues"
+  },
+  "gitHead": "081e52f8e9305c57d0726ac88c0a1be5f4619e44"
+}

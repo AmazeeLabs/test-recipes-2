@@ -1,0 +1,5 @@
+generated/*
+!generated/schema.graphql
+.cache
+node_modules
+public

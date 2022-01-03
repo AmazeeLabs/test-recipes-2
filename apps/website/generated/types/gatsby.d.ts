@@ -10,10 +10,7 @@ type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /**
-   * A date string, such as 2007-12-03, compliant with the ISO 8601 standard for
-   * representation of dates and times using the Gregorian calendar.
-   */
+  /** A date string, such as 2007-12-03, compliant with the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   Date: any;
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: any;
@@ -49,8 +46,6 @@ type Directory = Node & {
   birthtime?: Maybe<Scalars['Date']>;
   /** @deprecated Use `birthTime` instead */
   birthtimeMs?: Maybe<Scalars['Float']>;
-  blksize?: Maybe<Scalars['Int']>;
-  blocks?: Maybe<Scalars['Int']>;
   changeTime: Scalars['Date'];
   children: Array<Node>;
   ctime: Scalars['Date'];
@@ -141,8 +136,11 @@ type DirectoryConnection = {
   distinct: Array<Scalars['String']>;
   edges: Array<DirectoryEdge>;
   group: Array<DirectoryGroupConnection>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
   nodes: Array<Directory>;
   pageInfo: PageInfo;
+  sum?: Maybe<Scalars['Float']>;
   totalCount: Scalars['Int'];
 };
 
@@ -156,6 +154,21 @@ type DirectoryConnectionGroupArgs = {
   field: DirectoryFieldsEnum;
   limit?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
+};
+
+
+type DirectoryConnectionMaxArgs = {
+  field: DirectoryFieldsEnum;
+};
+
+
+type DirectoryConnectionMinArgs = {
+  field: DirectoryFieldsEnum;
+};
+
+
+type DirectoryConnectionSumArgs = {
+  field: DirectoryFieldsEnum;
 };
 
 type DirectoryEdge = {
@@ -174,8 +187,6 @@ enum DirectoryFieldsEnum {
   BirthTime = 'birthTime',
   Birthtime = 'birthtime',
   BirthtimeMs = 'birthtimeMs',
-  Blksize = 'blksize',
-  Blocks = 'blocks',
   ChangeTime = 'changeTime',
   Children = 'children',
   ChildrenChildren = 'children___children',
@@ -296,8 +307,6 @@ type DirectoryFilterInput = {
   birthTime?: InputMaybe<DateQueryOperatorInput>;
   birthtime?: InputMaybe<DateQueryOperatorInput>;
   birthtimeMs?: InputMaybe<FloatQueryOperatorInput>;
-  blksize?: InputMaybe<IntQueryOperatorInput>;
-  blocks?: InputMaybe<IntQueryOperatorInput>;
   changeTime?: InputMaybe<DateQueryOperatorInput>;
   children?: InputMaybe<NodeFilterListInput>;
   ctime?: InputMaybe<DateQueryOperatorInput>;
@@ -329,12 +338,44 @@ type DirectoryFilterInput = {
 
 type DirectoryGroupConnection = {
   __typename?: 'DirectoryGroupConnection';
+  distinct: Array<Scalars['String']>;
   edges: Array<DirectoryEdge>;
   field: Scalars['String'];
   fieldValue?: Maybe<Scalars['String']>;
+  group: Array<DirectoryGroupConnection>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
   nodes: Array<Directory>;
   pageInfo: PageInfo;
+  sum?: Maybe<Scalars['Float']>;
   totalCount: Scalars['Int'];
+};
+
+
+type DirectoryGroupConnectionDistinctArgs = {
+  field: DirectoryFieldsEnum;
+};
+
+
+type DirectoryGroupConnectionGroupArgs = {
+  field: DirectoryFieldsEnum;
+  limit?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+};
+
+
+type DirectoryGroupConnectionMaxArgs = {
+  field: DirectoryFieldsEnum;
+};
+
+
+type DirectoryGroupConnectionMinArgs = {
+  field: DirectoryFieldsEnum;
+};
+
+
+type DirectoryGroupConnectionSumArgs = {
+  field: DirectoryFieldsEnum;
 };
 
 type DirectorySortInput = {
@@ -448,8 +489,11 @@ type FileConnection = {
   distinct: Array<Scalars['String']>;
   edges: Array<FileEdge>;
   group: Array<FileGroupConnection>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
   nodes: Array<File>;
   pageInfo: PageInfo;
+  sum?: Maybe<Scalars['Float']>;
   totalCount: Scalars['Int'];
 };
 
@@ -463,6 +507,21 @@ type FileConnectionGroupArgs = {
   field: FileFieldsEnum;
   limit?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
+};
+
+
+type FileConnectionMaxArgs = {
+  field: FileFieldsEnum;
+};
+
+
+type FileConnectionMinArgs = {
+  field: FileFieldsEnum;
+};
+
+
+type FileConnectionSumArgs = {
+  field: FileFieldsEnum;
 };
 
 type FileEdge = {
@@ -638,12 +697,44 @@ type FileFilterInput = {
 
 type FileGroupConnection = {
   __typename?: 'FileGroupConnection';
+  distinct: Array<Scalars['String']>;
   edges: Array<FileEdge>;
   field: Scalars['String'];
   fieldValue?: Maybe<Scalars['String']>;
+  group: Array<FileGroupConnection>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
   nodes: Array<File>;
   pageInfo: PageInfo;
+  sum?: Maybe<Scalars['Float']>;
   totalCount: Scalars['Int'];
+};
+
+
+type FileGroupConnectionDistinctArgs = {
+  field: FileFieldsEnum;
+};
+
+
+type FileGroupConnectionGroupArgs = {
+  field: FileFieldsEnum;
+  limit?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+};
+
+
+type FileGroupConnectionMaxArgs = {
+  field: FileFieldsEnum;
+};
+
+
+type FileGroupConnectionMinArgs = {
+  field: FileFieldsEnum;
+};
+
+
+type FileGroupConnectionSumArgs = {
+  field: FileFieldsEnum;
 };
 
 type FileSortInput = {
@@ -696,6 +787,15 @@ type InternalFilterInput = {
   type?: InputMaybe<StringQueryOperatorInput>;
 };
 
+type JsonQueryOperatorInput = {
+  eq?: InputMaybe<Scalars['JSON']>;
+  glob?: InputMaybe<Scalars['JSON']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['JSON']>>>;
+  ne?: InputMaybe<Scalars['JSON']>;
+  nin?: InputMaybe<Array<InputMaybe<Scalars['JSON']>>>;
+  regex?: InputMaybe<Scalars['JSON']>;
+};
+
 /** Node Interface */
 type Node = {
   children: Array<Node>;
@@ -732,12 +832,14 @@ type Query = {
   allFile: FileConnection;
   allSite: SiteConnection;
   allSiteBuildMetadata: SiteBuildMetadataConnection;
+  allSiteFunction: SiteFunctionConnection;
   allSitePage: SitePageConnection;
   allSitePlugin: SitePluginConnection;
   directory?: Maybe<Directory>;
   file?: Maybe<File>;
   site?: Maybe<Site>;
   siteBuildMetadata?: Maybe<SiteBuildMetadata>;
+  siteFunction?: Maybe<SiteFunction>;
   sitePage?: Maybe<SitePage>;
   sitePlugin?: Maybe<SitePlugin>;
 };
@@ -775,6 +877,14 @@ type QueryAllSiteBuildMetadataArgs = {
 };
 
 
+type QueryAllSiteFunctionArgs = {
+  filter?: InputMaybe<SiteFunctionFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<SiteFunctionSortInput>;
+};
+
+
 type QueryAllSitePageArgs = {
   filter?: InputMaybe<SitePageFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -800,8 +910,6 @@ type QueryDirectoryArgs = {
   birthTime?: InputMaybe<DateQueryOperatorInput>;
   birthtime?: InputMaybe<DateQueryOperatorInput>;
   birthtimeMs?: InputMaybe<FloatQueryOperatorInput>;
-  blksize?: InputMaybe<IntQueryOperatorInput>;
-  blocks?: InputMaybe<IntQueryOperatorInput>;
   changeTime?: InputMaybe<DateQueryOperatorInput>;
   children?: InputMaybe<NodeFilterListInput>;
   ctime?: InputMaybe<DateQueryOperatorInput>;
@@ -879,6 +987,7 @@ type QuerySiteArgs = {
   children?: InputMaybe<NodeFilterListInput>;
   id?: InputMaybe<StringQueryOperatorInput>;
   internal?: InputMaybe<InternalFilterInput>;
+  jsxRuntime?: InputMaybe<StringQueryOperatorInput>;
   parent?: InputMaybe<NodeFilterInput>;
   pathPrefix?: InputMaybe<StringQueryOperatorInput>;
   polyfill?: InputMaybe<BooleanQueryOperatorInput>;
@@ -895,6 +1004,21 @@ type QuerySiteBuildMetadataArgs = {
 };
 
 
+type QuerySiteFunctionArgs = {
+  absoluteCompiledFilePath?: InputMaybe<StringQueryOperatorInput>;
+  children?: InputMaybe<NodeFilterListInput>;
+  functionRoute?: InputMaybe<StringQueryOperatorInput>;
+  id?: InputMaybe<StringQueryOperatorInput>;
+  internal?: InputMaybe<InternalFilterInput>;
+  matchPath?: InputMaybe<StringQueryOperatorInput>;
+  originalAbsoluteFilePath?: InputMaybe<StringQueryOperatorInput>;
+  originalRelativeFilePath?: InputMaybe<StringQueryOperatorInput>;
+  parent?: InputMaybe<NodeFilterInput>;
+  pluginName?: InputMaybe<StringQueryOperatorInput>;
+  relativeCompiledFilePath?: InputMaybe<StringQueryOperatorInput>;
+};
+
+
 type QuerySitePageArgs = {
   children?: InputMaybe<NodeFilterListInput>;
   component?: InputMaybe<StringQueryOperatorInput>;
@@ -903,8 +1027,10 @@ type QuerySitePageArgs = {
   internal?: InputMaybe<InternalFilterInput>;
   internalComponentName?: InputMaybe<StringQueryOperatorInput>;
   matchPath?: InputMaybe<StringQueryOperatorInput>;
+  pageContext?: InputMaybe<JsonQueryOperatorInput>;
   parent?: InputMaybe<NodeFilterInput>;
   path?: InputMaybe<StringQueryOperatorInput>;
+  pluginCreator?: InputMaybe<SitePluginFilterInput>;
 };
 
 
@@ -915,10 +1041,10 @@ type QuerySitePluginArgs = {
   internal?: InputMaybe<InternalFilterInput>;
   name?: InputMaybe<StringQueryOperatorInput>;
   nodeAPIs?: InputMaybe<StringQueryOperatorInput>;
-  packageJson?: InputMaybe<SitePluginPackageJsonFilterInput>;
+  packageJson?: InputMaybe<JsonQueryOperatorInput>;
   parent?: InputMaybe<NodeFilterInput>;
   pluginFilepath?: InputMaybe<StringQueryOperatorInput>;
-  pluginOptions?: InputMaybe<SitePluginPluginOptionsFilterInput>;
+  pluginOptions?: InputMaybe<JsonQueryOperatorInput>;
   resolve?: InputMaybe<StringQueryOperatorInput>;
   ssrAPIs?: InputMaybe<StringQueryOperatorInput>;
   version?: InputMaybe<StringQueryOperatorInput>;
@@ -930,6 +1056,7 @@ type Site = Node & {
   children: Array<Node>;
   id: Scalars['ID'];
   internal: Internal;
+  jsxRuntime?: Maybe<Scalars['String']>;
   parent?: Maybe<Node>;
   pathPrefix?: Maybe<Scalars['String']>;
   polyfill?: Maybe<Scalars['Boolean']>;
@@ -966,8 +1093,11 @@ type SiteBuildMetadataConnection = {
   distinct: Array<Scalars['String']>;
   edges: Array<SiteBuildMetadataEdge>;
   group: Array<SiteBuildMetadataGroupConnection>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
   nodes: Array<SiteBuildMetadata>;
   pageInfo: PageInfo;
+  sum?: Maybe<Scalars['Float']>;
   totalCount: Scalars['Int'];
 };
 
@@ -981,6 +1111,21 @@ type SiteBuildMetadataConnectionGroupArgs = {
   field: SiteBuildMetadataFieldsEnum;
   limit?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
+};
+
+
+type SiteBuildMetadataConnectionMaxArgs = {
+  field: SiteBuildMetadataFieldsEnum;
+};
+
+
+type SiteBuildMetadataConnectionMinArgs = {
+  field: SiteBuildMetadataFieldsEnum;
+};
+
+
+type SiteBuildMetadataConnectionSumArgs = {
+  field: SiteBuildMetadataFieldsEnum;
 };
 
 type SiteBuildMetadataEdge = {
@@ -1090,12 +1235,44 @@ type SiteBuildMetadataFilterInput = {
 
 type SiteBuildMetadataGroupConnection = {
   __typename?: 'SiteBuildMetadataGroupConnection';
+  distinct: Array<Scalars['String']>;
   edges: Array<SiteBuildMetadataEdge>;
   field: Scalars['String'];
   fieldValue?: Maybe<Scalars['String']>;
+  group: Array<SiteBuildMetadataGroupConnection>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
   nodes: Array<SiteBuildMetadata>;
   pageInfo: PageInfo;
+  sum?: Maybe<Scalars['Float']>;
   totalCount: Scalars['Int'];
+};
+
+
+type SiteBuildMetadataGroupConnectionDistinctArgs = {
+  field: SiteBuildMetadataFieldsEnum;
+};
+
+
+type SiteBuildMetadataGroupConnectionGroupArgs = {
+  field: SiteBuildMetadataFieldsEnum;
+  limit?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+};
+
+
+type SiteBuildMetadataGroupConnectionMaxArgs = {
+  field: SiteBuildMetadataFieldsEnum;
+};
+
+
+type SiteBuildMetadataGroupConnectionMinArgs = {
+  field: SiteBuildMetadataFieldsEnum;
+};
+
+
+type SiteBuildMetadataGroupConnectionSumArgs = {
+  field: SiteBuildMetadataFieldsEnum;
 };
 
 type SiteBuildMetadataSortInput = {
@@ -1108,8 +1285,11 @@ type SiteConnection = {
   distinct: Array<Scalars['String']>;
   edges: Array<SiteEdge>;
   group: Array<SiteGroupConnection>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
   nodes: Array<Site>;
   pageInfo: PageInfo;
+  sum?: Maybe<Scalars['Float']>;
   totalCount: Scalars['Int'];
 };
 
@@ -1123,6 +1303,21 @@ type SiteConnectionGroupArgs = {
   field: SiteFieldsEnum;
   limit?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
+};
+
+
+type SiteConnectionMaxArgs = {
+  field: SiteFieldsEnum;
+};
+
+
+type SiteConnectionMinArgs = {
+  field: SiteFieldsEnum;
+};
+
+
+type SiteConnectionSumArgs = {
+  field: SiteFieldsEnum;
 };
 
 type SiteEdge = {
@@ -1182,6 +1377,7 @@ enum SiteFieldsEnum {
   InternalMediaType = 'internal___mediaType',
   InternalOwner = 'internal___owner',
   InternalType = 'internal___type',
+  JsxRuntime = 'jsxRuntime',
   ParentChildren = 'parent___children',
   ParentChildrenChildren = 'parent___children___children',
   ParentChildrenChildrenChildren = 'parent___children___children___children',
@@ -1232,20 +1428,272 @@ type SiteFilterInput = {
   children?: InputMaybe<NodeFilterListInput>;
   id?: InputMaybe<StringQueryOperatorInput>;
   internal?: InputMaybe<InternalFilterInput>;
+  jsxRuntime?: InputMaybe<StringQueryOperatorInput>;
   parent?: InputMaybe<NodeFilterInput>;
   pathPrefix?: InputMaybe<StringQueryOperatorInput>;
   polyfill?: InputMaybe<BooleanQueryOperatorInput>;
   siteMetadata?: InputMaybe<SiteSiteMetadataFilterInput>;
 };
 
+type SiteFunction = Node & {
+  __typename?: 'SiteFunction';
+  absoluteCompiledFilePath: Scalars['String'];
+  children: Array<Node>;
+  functionRoute: Scalars['String'];
+  id: Scalars['ID'];
+  internal: Internal;
+  matchPath?: Maybe<Scalars['String']>;
+  originalAbsoluteFilePath: Scalars['String'];
+  originalRelativeFilePath: Scalars['String'];
+  parent?: Maybe<Node>;
+  pluginName: Scalars['String'];
+  relativeCompiledFilePath: Scalars['String'];
+};
+
+type SiteFunctionConnection = {
+  __typename?: 'SiteFunctionConnection';
+  distinct: Array<Scalars['String']>;
+  edges: Array<SiteFunctionEdge>;
+  group: Array<SiteFunctionGroupConnection>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
+  nodes: Array<SiteFunction>;
+  pageInfo: PageInfo;
+  sum?: Maybe<Scalars['Float']>;
+  totalCount: Scalars['Int'];
+};
+
+
+type SiteFunctionConnectionDistinctArgs = {
+  field: SiteFunctionFieldsEnum;
+};
+
+
+type SiteFunctionConnectionGroupArgs = {
+  field: SiteFunctionFieldsEnum;
+  limit?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+};
+
+
+type SiteFunctionConnectionMaxArgs = {
+  field: SiteFunctionFieldsEnum;
+};
+
+
+type SiteFunctionConnectionMinArgs = {
+  field: SiteFunctionFieldsEnum;
+};
+
+
+type SiteFunctionConnectionSumArgs = {
+  field: SiteFunctionFieldsEnum;
+};
+
+type SiteFunctionEdge = {
+  __typename?: 'SiteFunctionEdge';
+  next?: Maybe<SiteFunction>;
+  node: SiteFunction;
+  previous?: Maybe<SiteFunction>;
+};
+
+enum SiteFunctionFieldsEnum {
+  AbsoluteCompiledFilePath = 'absoluteCompiledFilePath',
+  Children = 'children',
+  ChildrenChildren = 'children___children',
+  ChildrenChildrenChildren = 'children___children___children',
+  ChildrenChildrenChildrenChildren = 'children___children___children___children',
+  ChildrenChildrenChildrenId = 'children___children___children___id',
+  ChildrenChildrenId = 'children___children___id',
+  ChildrenChildrenInternalContent = 'children___children___internal___content',
+  ChildrenChildrenInternalContentDigest = 'children___children___internal___contentDigest',
+  ChildrenChildrenInternalDescription = 'children___children___internal___description',
+  ChildrenChildrenInternalFieldOwners = 'children___children___internal___fieldOwners',
+  ChildrenChildrenInternalIgnoreType = 'children___children___internal___ignoreType',
+  ChildrenChildrenInternalMediaType = 'children___children___internal___mediaType',
+  ChildrenChildrenInternalOwner = 'children___children___internal___owner',
+  ChildrenChildrenInternalType = 'children___children___internal___type',
+  ChildrenChildrenParentChildren = 'children___children___parent___children',
+  ChildrenChildrenParentId = 'children___children___parent___id',
+  ChildrenId = 'children___id',
+  ChildrenInternalContent = 'children___internal___content',
+  ChildrenInternalContentDigest = 'children___internal___contentDigest',
+  ChildrenInternalDescription = 'children___internal___description',
+  ChildrenInternalFieldOwners = 'children___internal___fieldOwners',
+  ChildrenInternalIgnoreType = 'children___internal___ignoreType',
+  ChildrenInternalMediaType = 'children___internal___mediaType',
+  ChildrenInternalOwner = 'children___internal___owner',
+  ChildrenInternalType = 'children___internal___type',
+  ChildrenParentChildren = 'children___parent___children',
+  ChildrenParentChildrenChildren = 'children___parent___children___children',
+  ChildrenParentChildrenId = 'children___parent___children___id',
+  ChildrenParentId = 'children___parent___id',
+  ChildrenParentInternalContent = 'children___parent___internal___content',
+  ChildrenParentInternalContentDigest = 'children___parent___internal___contentDigest',
+  ChildrenParentInternalDescription = 'children___parent___internal___description',
+  ChildrenParentInternalFieldOwners = 'children___parent___internal___fieldOwners',
+  ChildrenParentInternalIgnoreType = 'children___parent___internal___ignoreType',
+  ChildrenParentInternalMediaType = 'children___parent___internal___mediaType',
+  ChildrenParentInternalOwner = 'children___parent___internal___owner',
+  ChildrenParentInternalType = 'children___parent___internal___type',
+  ChildrenParentParentChildren = 'children___parent___parent___children',
+  ChildrenParentParentId = 'children___parent___parent___id',
+  FunctionRoute = 'functionRoute',
+  Id = 'id',
+  InternalContent = 'internal___content',
+  InternalContentDigest = 'internal___contentDigest',
+  InternalDescription = 'internal___description',
+  InternalFieldOwners = 'internal___fieldOwners',
+  InternalIgnoreType = 'internal___ignoreType',
+  InternalMediaType = 'internal___mediaType',
+  InternalOwner = 'internal___owner',
+  InternalType = 'internal___type',
+  MatchPath = 'matchPath',
+  OriginalAbsoluteFilePath = 'originalAbsoluteFilePath',
+  OriginalRelativeFilePath = 'originalRelativeFilePath',
+  ParentChildren = 'parent___children',
+  ParentChildrenChildren = 'parent___children___children',
+  ParentChildrenChildrenChildren = 'parent___children___children___children',
+  ParentChildrenChildrenId = 'parent___children___children___id',
+  ParentChildrenId = 'parent___children___id',
+  ParentChildrenInternalContent = 'parent___children___internal___content',
+  ParentChildrenInternalContentDigest = 'parent___children___internal___contentDigest',
+  ParentChildrenInternalDescription = 'parent___children___internal___description',
+  ParentChildrenInternalFieldOwners = 'parent___children___internal___fieldOwners',
+  ParentChildrenInternalIgnoreType = 'parent___children___internal___ignoreType',
+  ParentChildrenInternalMediaType = 'parent___children___internal___mediaType',
+  ParentChildrenInternalOwner = 'parent___children___internal___owner',
+  ParentChildrenInternalType = 'parent___children___internal___type',
+  ParentChildrenParentChildren = 'parent___children___parent___children',
+  ParentChildrenParentId = 'parent___children___parent___id',
+  ParentId = 'parent___id',
+  ParentInternalContent = 'parent___internal___content',
+  ParentInternalContentDigest = 'parent___internal___contentDigest',
+  ParentInternalDescription = 'parent___internal___description',
+  ParentInternalFieldOwners = 'parent___internal___fieldOwners',
+  ParentInternalIgnoreType = 'parent___internal___ignoreType',
+  ParentInternalMediaType = 'parent___internal___mediaType',
+  ParentInternalOwner = 'parent___internal___owner',
+  ParentInternalType = 'parent___internal___type',
+  ParentParentChildren = 'parent___parent___children',
+  ParentParentChildrenChildren = 'parent___parent___children___children',
+  ParentParentChildrenId = 'parent___parent___children___id',
+  ParentParentId = 'parent___parent___id',
+  ParentParentInternalContent = 'parent___parent___internal___content',
+  ParentParentInternalContentDigest = 'parent___parent___internal___contentDigest',
+  ParentParentInternalDescription = 'parent___parent___internal___description',
+  ParentParentInternalFieldOwners = 'parent___parent___internal___fieldOwners',
+  ParentParentInternalIgnoreType = 'parent___parent___internal___ignoreType',
+  ParentParentInternalMediaType = 'parent___parent___internal___mediaType',
+  ParentParentInternalOwner = 'parent___parent___internal___owner',
+  ParentParentInternalType = 'parent___parent___internal___type',
+  ParentParentParentChildren = 'parent___parent___parent___children',
+  ParentParentParentId = 'parent___parent___parent___id',
+  PluginName = 'pluginName',
+  RelativeCompiledFilePath = 'relativeCompiledFilePath'
+}
+
+type SiteFunctionFilterInput = {
+  absoluteCompiledFilePath?: InputMaybe<StringQueryOperatorInput>;
+  children?: InputMaybe<NodeFilterListInput>;
+  functionRoute?: InputMaybe<StringQueryOperatorInput>;
+  id?: InputMaybe<StringQueryOperatorInput>;
+  internal?: InputMaybe<InternalFilterInput>;
+  matchPath?: InputMaybe<StringQueryOperatorInput>;
+  originalAbsoluteFilePath?: InputMaybe<StringQueryOperatorInput>;
+  originalRelativeFilePath?: InputMaybe<StringQueryOperatorInput>;
+  parent?: InputMaybe<NodeFilterInput>;
+  pluginName?: InputMaybe<StringQueryOperatorInput>;
+  relativeCompiledFilePath?: InputMaybe<StringQueryOperatorInput>;
+};
+
+type SiteFunctionGroupConnection = {
+  __typename?: 'SiteFunctionGroupConnection';
+  distinct: Array<Scalars['String']>;
+  edges: Array<SiteFunctionEdge>;
+  field: Scalars['String'];
+  fieldValue?: Maybe<Scalars['String']>;
+  group: Array<SiteFunctionGroupConnection>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
+  nodes: Array<SiteFunction>;
+  pageInfo: PageInfo;
+  sum?: Maybe<Scalars['Float']>;
+  totalCount: Scalars['Int'];
+};
+
+
+type SiteFunctionGroupConnectionDistinctArgs = {
+  field: SiteFunctionFieldsEnum;
+};
+
+
+type SiteFunctionGroupConnectionGroupArgs = {
+  field: SiteFunctionFieldsEnum;
+  limit?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+};
+
+
+type SiteFunctionGroupConnectionMaxArgs = {
+  field: SiteFunctionFieldsEnum;
+};
+
+
+type SiteFunctionGroupConnectionMinArgs = {
+  field: SiteFunctionFieldsEnum;
+};
+
+
+type SiteFunctionGroupConnectionSumArgs = {
+  field: SiteFunctionFieldsEnum;
+};
+
+type SiteFunctionSortInput = {
+  fields?: InputMaybe<Array<InputMaybe<SiteFunctionFieldsEnum>>>;
+  order?: InputMaybe<Array<InputMaybe<SortOrderEnum>>>;
+};
+
 type SiteGroupConnection = {
   __typename?: 'SiteGroupConnection';
+  distinct: Array<Scalars['String']>;
   edges: Array<SiteEdge>;
   field: Scalars['String'];
   fieldValue?: Maybe<Scalars['String']>;
+  group: Array<SiteGroupConnection>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
   nodes: Array<Site>;
   pageInfo: PageInfo;
+  sum?: Maybe<Scalars['Float']>;
   totalCount: Scalars['Int'];
+};
+
+
+type SiteGroupConnectionDistinctArgs = {
+  field: SiteFieldsEnum;
+};
+
+
+type SiteGroupConnectionGroupArgs = {
+  field: SiteFieldsEnum;
+  limit?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+};
+
+
+type SiteGroupConnectionMaxArgs = {
+  field: SiteFieldsEnum;
+};
+
+
+type SiteGroupConnectionMinArgs = {
+  field: SiteFieldsEnum;
+};
+
+
+type SiteGroupConnectionSumArgs = {
+  field: SiteFieldsEnum;
 };
 
 type SitePage = Node & {
@@ -1257,8 +1705,10 @@ type SitePage = Node & {
   internal: Internal;
   internalComponentName: Scalars['String'];
   matchPath?: Maybe<Scalars['String']>;
+  pageContext?: Maybe<Scalars['JSON']>;
   parent?: Maybe<Node>;
   path: Scalars['String'];
+  pluginCreator?: Maybe<SitePlugin>;
 };
 
 type SitePageConnection = {
@@ -1266,8 +1716,11 @@ type SitePageConnection = {
   distinct: Array<Scalars['String']>;
   edges: Array<SitePageEdge>;
   group: Array<SitePageGroupConnection>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
   nodes: Array<SitePage>;
   pageInfo: PageInfo;
+  sum?: Maybe<Scalars['Float']>;
   totalCount: Scalars['Int'];
 };
 
@@ -1281,6 +1734,21 @@ type SitePageConnectionGroupArgs = {
   field: SitePageFieldsEnum;
   limit?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
+};
+
+
+type SitePageConnectionMaxArgs = {
+  field: SitePageFieldsEnum;
+};
+
+
+type SitePageConnectionMinArgs = {
+  field: SitePageFieldsEnum;
+};
+
+
+type SitePageConnectionSumArgs = {
+  field: SitePageFieldsEnum;
 };
 
 type SitePageEdge = {
@@ -1343,6 +1811,7 @@ enum SitePageFieldsEnum {
   InternalOwner = 'internal___owner',
   InternalType = 'internal___type',
   MatchPath = 'matchPath',
+  PageContext = 'pageContext',
   ParentChildren = 'parent___children',
   ParentChildrenChildren = 'parent___children___children',
   ParentChildrenChildrenChildren = 'parent___children___children___children',
@@ -1381,7 +1850,54 @@ enum SitePageFieldsEnum {
   ParentParentInternalType = 'parent___parent___internal___type',
   ParentParentParentChildren = 'parent___parent___parent___children',
   ParentParentParentId = 'parent___parent___parent___id',
-  Path = 'path'
+  Path = 'path',
+  PluginCreatorBrowserApIs = 'pluginCreator___browserAPIs',
+  PluginCreatorChildren = 'pluginCreator___children',
+  PluginCreatorChildrenChildren = 'pluginCreator___children___children',
+  PluginCreatorChildrenChildrenChildren = 'pluginCreator___children___children___children',
+  PluginCreatorChildrenChildrenId = 'pluginCreator___children___children___id',
+  PluginCreatorChildrenId = 'pluginCreator___children___id',
+  PluginCreatorChildrenInternalContent = 'pluginCreator___children___internal___content',
+  PluginCreatorChildrenInternalContentDigest = 'pluginCreator___children___internal___contentDigest',
+  PluginCreatorChildrenInternalDescription = 'pluginCreator___children___internal___description',
+  PluginCreatorChildrenInternalFieldOwners = 'pluginCreator___children___internal___fieldOwners',
+  PluginCreatorChildrenInternalIgnoreType = 'pluginCreator___children___internal___ignoreType',
+  PluginCreatorChildrenInternalMediaType = 'pluginCreator___children___internal___mediaType',
+  PluginCreatorChildrenInternalOwner = 'pluginCreator___children___internal___owner',
+  PluginCreatorChildrenInternalType = 'pluginCreator___children___internal___type',
+  PluginCreatorChildrenParentChildren = 'pluginCreator___children___parent___children',
+  PluginCreatorChildrenParentId = 'pluginCreator___children___parent___id',
+  PluginCreatorId = 'pluginCreator___id',
+  PluginCreatorInternalContent = 'pluginCreator___internal___content',
+  PluginCreatorInternalContentDigest = 'pluginCreator___internal___contentDigest',
+  PluginCreatorInternalDescription = 'pluginCreator___internal___description',
+  PluginCreatorInternalFieldOwners = 'pluginCreator___internal___fieldOwners',
+  PluginCreatorInternalIgnoreType = 'pluginCreator___internal___ignoreType',
+  PluginCreatorInternalMediaType = 'pluginCreator___internal___mediaType',
+  PluginCreatorInternalOwner = 'pluginCreator___internal___owner',
+  PluginCreatorInternalType = 'pluginCreator___internal___type',
+  PluginCreatorName = 'pluginCreator___name',
+  PluginCreatorNodeApIs = 'pluginCreator___nodeAPIs',
+  PluginCreatorPackageJson = 'pluginCreator___packageJson',
+  PluginCreatorParentChildren = 'pluginCreator___parent___children',
+  PluginCreatorParentChildrenChildren = 'pluginCreator___parent___children___children',
+  PluginCreatorParentChildrenId = 'pluginCreator___parent___children___id',
+  PluginCreatorParentId = 'pluginCreator___parent___id',
+  PluginCreatorParentInternalContent = 'pluginCreator___parent___internal___content',
+  PluginCreatorParentInternalContentDigest = 'pluginCreator___parent___internal___contentDigest',
+  PluginCreatorParentInternalDescription = 'pluginCreator___parent___internal___description',
+  PluginCreatorParentInternalFieldOwners = 'pluginCreator___parent___internal___fieldOwners',
+  PluginCreatorParentInternalIgnoreType = 'pluginCreator___parent___internal___ignoreType',
+  PluginCreatorParentInternalMediaType = 'pluginCreator___parent___internal___mediaType',
+  PluginCreatorParentInternalOwner = 'pluginCreator___parent___internal___owner',
+  PluginCreatorParentInternalType = 'pluginCreator___parent___internal___type',
+  PluginCreatorParentParentChildren = 'pluginCreator___parent___parent___children',
+  PluginCreatorParentParentId = 'pluginCreator___parent___parent___id',
+  PluginCreatorPluginFilepath = 'pluginCreator___pluginFilepath',
+  PluginCreatorPluginOptions = 'pluginCreator___pluginOptions',
+  PluginCreatorResolve = 'pluginCreator___resolve',
+  PluginCreatorSsrApIs = 'pluginCreator___ssrAPIs',
+  PluginCreatorVersion = 'pluginCreator___version'
 }
 
 type SitePageFilterInput = {
@@ -1392,18 +1908,52 @@ type SitePageFilterInput = {
   internal?: InputMaybe<InternalFilterInput>;
   internalComponentName?: InputMaybe<StringQueryOperatorInput>;
   matchPath?: InputMaybe<StringQueryOperatorInput>;
+  pageContext?: InputMaybe<JsonQueryOperatorInput>;
   parent?: InputMaybe<NodeFilterInput>;
   path?: InputMaybe<StringQueryOperatorInput>;
+  pluginCreator?: InputMaybe<SitePluginFilterInput>;
 };
 
 type SitePageGroupConnection = {
   __typename?: 'SitePageGroupConnection';
+  distinct: Array<Scalars['String']>;
   edges: Array<SitePageEdge>;
   field: Scalars['String'];
   fieldValue?: Maybe<Scalars['String']>;
+  group: Array<SitePageGroupConnection>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
   nodes: Array<SitePage>;
   pageInfo: PageInfo;
+  sum?: Maybe<Scalars['Float']>;
   totalCount: Scalars['Int'];
+};
+
+
+type SitePageGroupConnectionDistinctArgs = {
+  field: SitePageFieldsEnum;
+};
+
+
+type SitePageGroupConnectionGroupArgs = {
+  field: SitePageFieldsEnum;
+  limit?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+};
+
+
+type SitePageGroupConnectionMaxArgs = {
+  field: SitePageFieldsEnum;
+};
+
+
+type SitePageGroupConnectionMinArgs = {
+  field: SitePageFieldsEnum;
+};
+
+
+type SitePageGroupConnectionSumArgs = {
+  field: SitePageFieldsEnum;
 };
 
 type SitePageSortInput = {
@@ -1419,10 +1969,10 @@ type SitePlugin = Node & {
   internal: Internal;
   name?: Maybe<Scalars['String']>;
   nodeAPIs?: Maybe<Array<Maybe<Scalars['String']>>>;
-  packageJson?: Maybe<SitePluginPackageJson>;
+  packageJson?: Maybe<Scalars['JSON']>;
   parent?: Maybe<Node>;
   pluginFilepath?: Maybe<Scalars['String']>;
-  pluginOptions?: Maybe<SitePluginPluginOptions>;
+  pluginOptions?: Maybe<Scalars['JSON']>;
   resolve?: Maybe<Scalars['String']>;
   ssrAPIs?: Maybe<Array<Maybe<Scalars['String']>>>;
   version?: Maybe<Scalars['String']>;
@@ -1433,8 +1983,11 @@ type SitePluginConnection = {
   distinct: Array<Scalars['String']>;
   edges: Array<SitePluginEdge>;
   group: Array<SitePluginGroupConnection>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
   nodes: Array<SitePlugin>;
   pageInfo: PageInfo;
+  sum?: Maybe<Scalars['Float']>;
   totalCount: Scalars['Int'];
 };
 
@@ -1448,6 +2001,21 @@ type SitePluginConnectionGroupArgs = {
   field: SitePluginFieldsEnum;
   limit?: InputMaybe<Scalars['Int']>;
   skip?: InputMaybe<Scalars['Int']>;
+};
+
+
+type SitePluginConnectionMaxArgs = {
+  field: SitePluginFieldsEnum;
+};
+
+
+type SitePluginConnectionMinArgs = {
+  field: SitePluginFieldsEnum;
+};
+
+
+type SitePluginConnectionSumArgs = {
+  field: SitePluginFieldsEnum;
 };
 
 type SitePluginEdge = {
@@ -1509,22 +2077,7 @@ enum SitePluginFieldsEnum {
   InternalType = 'internal___type',
   Name = 'name',
   NodeApIs = 'nodeAPIs',
-  PackageJsonAuthor = 'packageJson___author',
-  PackageJsonDependencies = 'packageJson___dependencies',
-  PackageJsonDependenciesName = 'packageJson___dependencies___name',
-  PackageJsonDependenciesVersion = 'packageJson___dependencies___version',
-  PackageJsonDescription = 'packageJson___description',
-  PackageJsonDevDependencies = 'packageJson___devDependencies',
-  PackageJsonDevDependenciesName = 'packageJson___devDependencies___name',
-  PackageJsonDevDependenciesVersion = 'packageJson___devDependencies___version',
-  PackageJsonKeywords = 'packageJson___keywords',
-  PackageJsonLicense = 'packageJson___license',
-  PackageJsonMain = 'packageJson___main',
-  PackageJsonName = 'packageJson___name',
-  PackageJsonPeerDependencies = 'packageJson___peerDependencies',
-  PackageJsonPeerDependenciesName = 'packageJson___peerDependencies___name',
-  PackageJsonPeerDependenciesVersion = 'packageJson___peerDependencies___version',
-  PackageJsonVersion = 'packageJson___version',
+  PackageJson = 'packageJson',
   ParentChildren = 'parent___children',
   ParentChildrenChildren = 'parent___children___children',
   ParentChildrenChildrenChildren = 'parent___children___children___children',
@@ -1564,10 +2117,7 @@ enum SitePluginFieldsEnum {
   ParentParentParentChildren = 'parent___parent___parent___children',
   ParentParentParentId = 'parent___parent___parent___id',
   PluginFilepath = 'pluginFilepath',
-  PluginOptionsExcludePlugins = 'pluginOptions___exclude___plugins',
-  PluginOptionsName = 'pluginOptions___name',
-  PluginOptionsPath = 'pluginOptions___path',
-  PluginOptionsPathCheck = 'pluginOptions___pathCheck',
+  PluginOptions = 'pluginOptions',
   Resolve = 'resolve',
   SsrApIs = 'ssrAPIs',
   Version = 'version'
@@ -1580,10 +2130,10 @@ type SitePluginFilterInput = {
   internal?: InputMaybe<InternalFilterInput>;
   name?: InputMaybe<StringQueryOperatorInput>;
   nodeAPIs?: InputMaybe<StringQueryOperatorInput>;
-  packageJson?: InputMaybe<SitePluginPackageJsonFilterInput>;
+  packageJson?: InputMaybe<JsonQueryOperatorInput>;
   parent?: InputMaybe<NodeFilterInput>;
   pluginFilepath?: InputMaybe<StringQueryOperatorInput>;
-  pluginOptions?: InputMaybe<SitePluginPluginOptionsFilterInput>;
+  pluginOptions?: InputMaybe<JsonQueryOperatorInput>;
   resolve?: InputMaybe<StringQueryOperatorInput>;
   ssrAPIs?: InputMaybe<StringQueryOperatorInput>;
   version?: InputMaybe<StringQueryOperatorInput>;
@@ -1591,108 +2141,44 @@ type SitePluginFilterInput = {
 
 type SitePluginGroupConnection = {
   __typename?: 'SitePluginGroupConnection';
+  distinct: Array<Scalars['String']>;
   edges: Array<SitePluginEdge>;
   field: Scalars['String'];
   fieldValue?: Maybe<Scalars['String']>;
+  group: Array<SitePluginGroupConnection>;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
   nodes: Array<SitePlugin>;
   pageInfo: PageInfo;
+  sum?: Maybe<Scalars['Float']>;
   totalCount: Scalars['Int'];
 };
 
-type SitePluginPackageJson = {
-  __typename?: 'SitePluginPackageJson';
-  author?: Maybe<Scalars['String']>;
-  dependencies?: Maybe<Array<Maybe<SitePluginPackageJsonDependencies>>>;
-  description?: Maybe<Scalars['String']>;
-  devDependencies?: Maybe<Array<Maybe<SitePluginPackageJsonDevDependencies>>>;
-  keywords?: Maybe<Array<Maybe<Scalars['String']>>>;
-  license?: Maybe<Scalars['String']>;
-  main?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  peerDependencies?: Maybe<Array<Maybe<SitePluginPackageJsonPeerDependencies>>>;
-  version?: Maybe<Scalars['String']>;
+
+type SitePluginGroupConnectionDistinctArgs = {
+  field: SitePluginFieldsEnum;
 };
 
-type SitePluginPackageJsonDependencies = {
-  __typename?: 'SitePluginPackageJsonDependencies';
-  name?: Maybe<Scalars['String']>;
-  version?: Maybe<Scalars['String']>;
+
+type SitePluginGroupConnectionGroupArgs = {
+  field: SitePluginFieldsEnum;
+  limit?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
 };
 
-type SitePluginPackageJsonDependenciesFilterInput = {
-  name?: InputMaybe<StringQueryOperatorInput>;
-  version?: InputMaybe<StringQueryOperatorInput>;
+
+type SitePluginGroupConnectionMaxArgs = {
+  field: SitePluginFieldsEnum;
 };
 
-type SitePluginPackageJsonDependenciesFilterListInput = {
-  elemMatch?: InputMaybe<SitePluginPackageJsonDependenciesFilterInput>;
+
+type SitePluginGroupConnectionMinArgs = {
+  field: SitePluginFieldsEnum;
 };
 
-type SitePluginPackageJsonDevDependencies = {
-  __typename?: 'SitePluginPackageJsonDevDependencies';
-  name?: Maybe<Scalars['String']>;
-  version?: Maybe<Scalars['String']>;
-};
 
-type SitePluginPackageJsonDevDependenciesFilterInput = {
-  name?: InputMaybe<StringQueryOperatorInput>;
-  version?: InputMaybe<StringQueryOperatorInput>;
-};
-
-type SitePluginPackageJsonDevDependenciesFilterListInput = {
-  elemMatch?: InputMaybe<SitePluginPackageJsonDevDependenciesFilterInput>;
-};
-
-type SitePluginPackageJsonFilterInput = {
-  author?: InputMaybe<StringQueryOperatorInput>;
-  dependencies?: InputMaybe<SitePluginPackageJsonDependenciesFilterListInput>;
-  description?: InputMaybe<StringQueryOperatorInput>;
-  devDependencies?: InputMaybe<SitePluginPackageJsonDevDependenciesFilterListInput>;
-  keywords?: InputMaybe<StringQueryOperatorInput>;
-  license?: InputMaybe<StringQueryOperatorInput>;
-  main?: InputMaybe<StringQueryOperatorInput>;
-  name?: InputMaybe<StringQueryOperatorInput>;
-  peerDependencies?: InputMaybe<SitePluginPackageJsonPeerDependenciesFilterListInput>;
-  version?: InputMaybe<StringQueryOperatorInput>;
-};
-
-type SitePluginPackageJsonPeerDependencies = {
-  __typename?: 'SitePluginPackageJsonPeerDependencies';
-  name?: Maybe<Scalars['String']>;
-  version?: Maybe<Scalars['String']>;
-};
-
-type SitePluginPackageJsonPeerDependenciesFilterInput = {
-  name?: InputMaybe<StringQueryOperatorInput>;
-  version?: InputMaybe<StringQueryOperatorInput>;
-};
-
-type SitePluginPackageJsonPeerDependenciesFilterListInput = {
-  elemMatch?: InputMaybe<SitePluginPackageJsonPeerDependenciesFilterInput>;
-};
-
-type SitePluginPluginOptions = {
-  __typename?: 'SitePluginPluginOptions';
-  exclude?: Maybe<SitePluginPluginOptionsExclude>;
-  name?: Maybe<Scalars['String']>;
-  path?: Maybe<Scalars['String']>;
-  pathCheck?: Maybe<Scalars['Boolean']>;
-};
-
-type SitePluginPluginOptionsExclude = {
-  __typename?: 'SitePluginPluginOptionsExclude';
-  plugins?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-type SitePluginPluginOptionsExcludeFilterInput = {
-  plugins?: InputMaybe<StringQueryOperatorInput>;
-};
-
-type SitePluginPluginOptionsFilterInput = {
-  exclude?: InputMaybe<SitePluginPluginOptionsExcludeFilterInput>;
-  name?: InputMaybe<StringQueryOperatorInput>;
-  path?: InputMaybe<StringQueryOperatorInput>;
-  pathCheck?: InputMaybe<BooleanQueryOperatorInput>;
+type SitePluginGroupConnectionSumArgs = {
+  field: SitePluginFieldsEnum;
 };
 
 type SitePluginSortInput = {
