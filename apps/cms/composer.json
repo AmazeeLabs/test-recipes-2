@@ -15,13 +15,13 @@
     }
   ],
   "require": {
-    "amazeeio/drupal_integrations": "^0.3.6",
+    "amazeeio/drupal_integrations": "^0.3.7",
     "amazeelabs/proxy-drupal-core": "^1.1",
-    "amazeelabs/silverback-cli": "^2.7",
-    "composer/installers": "^1.9",
-    "drupal/core-composer-scaffold": "^9.3",
-    "drupal/core-project-message": "^9.3",
-    "drupal/core-recommended": "^9.3"
+    "amazeelabs/silverback-cli": "^2.8",
+    "composer/installers": "^1.12",
+    "drupal/core-composer-scaffold": "^9.4",
+    "drupal/core-project-message": "^9.4",
+    "drupal/core-recommended": "^9.4"
   },
   "conflict": {
     "drupal/drupal": "*"
