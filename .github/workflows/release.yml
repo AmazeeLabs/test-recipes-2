@@ -32,7 +32,7 @@ jobs:
           echo "##[set-output name=NODE_VERSION;]$(cat .nvmrc| grep -oE '[0-9]+(\.[0-9]+)?(\.[0-9]+)?' | head -1)"
         id: node_version
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: |
             ${{ steps.node_version.outputs.NODE_VERSION }}
@@ -56,7 +56,7 @@ jobs:
         run: |
           echo "::set-output name=hash::$(composer --version | shasum | cut -d' ' -f1)"
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-dependencies
         with:
